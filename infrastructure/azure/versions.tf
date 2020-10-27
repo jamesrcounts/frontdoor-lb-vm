@@ -15,11 +15,6 @@ terraform {
       version = "~> 3.0.0"
     }
   }
-
-  backend "azurerm" {
-    container_name = "terraform"
-    key            = "aks-with-nginx.tfstate"
-  }
 }
 
 provider azurerm {

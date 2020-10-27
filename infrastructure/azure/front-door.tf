@@ -1,6 +1,5 @@
 resource "azurerm_frontdoor" "example" {
-  name                                         = "fd-${local.project}"
-  location                                     = azurerm_resource_group.example.location
+  name                                         = local.project
   resource_group_name                          = azurerm_resource_group.example.name
   enforce_backend_pools_certificate_name_check = false
 
@@ -37,8 +36,8 @@ resource "azurerm_frontdoor" "example" {
   }
 
   frontend_endpoint {
-    name                              = "exampleFrontendEndpoint1"
-    host_name                         = "example-FrontDoor.azurefd.net"
-    custom_https_provisioning_enabled = false
+    name      = "exampleFrontendEndpoint1"
+    host_name = "${local.project}.azurefd.net"
   }
 }
+
