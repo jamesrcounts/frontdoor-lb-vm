@@ -1,8 +1,9 @@
 locals {
-  frontend_host                    = "${local.project}.azurefd.net"
-  frontend_endpoint_name           = replace(local.frontend_host, ".", "")
-  backend_pool_load_balancing_name = "${local.project}-backend-pool-load-balancing"
   backend_pool_health_probe_name   = "${local.project}-backend-pool-health-probe"
+  backend_pool_load_balancing_name = "${local.project}-backend-pool-load-balancing"
+  backend_pool_name                = "${local.project}-backend-pool"
+  frontend_endpoint_name           = replace(local.frontend_host, ".", "")
+  frontend_host                    = "${local.project}.azurefd.net"
 }
 
 resource "azurerm_frontdoor" "example" {
@@ -18,7 +19,7 @@ resource "azurerm_frontdoor" "example" {
 
     forwarding_configuration {
       forwarding_protocol = "HttpOnly"
-      backend_pool_name   = azurerm_public_ip.example.name
+      backend_pool_name   = local.backend_pool_name
     }
   }
 
@@ -33,7 +34,7 @@ resource "azurerm_frontdoor" "example" {
   }
 
   backend_pool {
-    name = azurerm_public_ip.example.name
+    name = local.backend_pool_name
     backend {
       enabled     = true
       address     = azurerm_public_ip.example.ip_address

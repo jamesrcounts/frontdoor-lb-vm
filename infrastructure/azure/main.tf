@@ -1,5 +1,5 @@
 locals {
-  project = "fd-lb-vm"
+  project = "snat-test"
 
   tags = {
     Environment = "Test"
