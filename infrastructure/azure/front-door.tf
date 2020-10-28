@@ -11,12 +11,13 @@ resource "azurerm_frontdoor" "example" {
   enforce_backend_pools_certificate_name_check = false
 
   routing_rule {
-    name               = "fd-to-lb"
-    accepted_protocols = ["Http", "Https"]
-    patterns_to_match  = ["/*"]
+    accepted_protocols = ["Http"]
     frontend_endpoints = [local.frontend_endpoint_name]
+    name               = "fd-to-lb"
+    patterns_to_match  = ["/*"]
+
     forwarding_configuration {
-      forwarding_protocol = "MatchRequest"
+      forwarding_protocol = "HttpOnly"
       backend_pool_name   = azurerm_public_ip.example.name
     }
   }
@@ -26,7 +27,9 @@ resource "azurerm_frontdoor" "example" {
   }
 
   backend_pool_health_probe {
-    name = local.backend_pool_health_probe_name
+    interval_in_seconds = 5
+    name                = local.backend_pool_health_probe_name
+    probe_method        = "HEAD"
   }
 
   backend_pool {
