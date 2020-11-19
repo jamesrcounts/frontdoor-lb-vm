@@ -15,6 +15,14 @@ terraform {
       version = "~> 3.0.0"
     }
   }
+
+  backend "remote" {
+    organization = "jamesrcounts"
+
+    workspaces {
+      name = "frontdoor-lb-vm"
+    }
+  }
 }
 
 provider azurerm {
